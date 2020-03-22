@@ -23,6 +23,7 @@ export class DataComponent implements OnInit {
     this.getData();
   }
   public getData() {
+    this.isLoaded= false;
     this.VlilleList = [];
     this.vlilleStationList = [];
     this.http.get(this.vlilleurl)

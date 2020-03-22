@@ -9,6 +9,10 @@
     </div>
 </nav>
 
+<div class="container" *ngIf='!isLoaded'>
+    <img id="loading" src="/assets/img/loading.gif">
+</div>
+
 <div class="container" *ngIf='isLoaded'>
     <div *ngFor='let vlille of vlilleStationList'>
         <div class="panel panel-default">

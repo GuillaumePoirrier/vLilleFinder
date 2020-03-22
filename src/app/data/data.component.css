@@ -6,3 +6,11 @@ span {
     margin-right: 5px;
     margin-left: 5px;
 }
+
+#loading {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 10%;
+    width: 25%;
+}
