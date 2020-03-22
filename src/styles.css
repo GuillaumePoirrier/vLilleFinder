@@ -1,1 +1,8 @@
-/* You can add global styles to this file, and also import other style files */
+@import './styles/bootstrap-3.3.7-dist/css/bootstrap.min.css';
+#loading {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 10%;
+    width: 10%;
+}

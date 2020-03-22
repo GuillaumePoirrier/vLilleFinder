@@ -1,0 +1,25 @@
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">VLille Finder</a>
+        </div>
+        <ul class="nav navbar-nav">
+
+            <li (click)="getData();"><button type="button" class="btn btn-primary">Refresh <span class="badge">{{ vlilleStationList.length }}</span></button> </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container" *ngIf='isLoaded'>
+    <div *ngFor='let vlille of vlilleStationList'>
+        <div class="panel panel-default">
+            <div class="panel-heading">{{ vlille.nom }}</div>
+            <div class="panel-body">
+                <span class="label label-default">{{ vlille.nbplacesdispo}}<span class="glyphicon glyphicon-chevron-down"></span></span>
+                <span class="label label-primary">{{ vlille.nbvelosdispo}}<span class="glyphicon glyphicon-chevron-up"></span></span>
+                <span [ngClass]="( vlille.etat == 'EN SERVICE') ? 'label label-success' : 'label label-warning'">{{ vlille.etat}}</span>
+            </div>
+
+        </div>
+    </div>
+</div>
