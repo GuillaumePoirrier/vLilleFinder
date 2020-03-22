@@ -2,8 +2,8 @@
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand" href="#">VLille Finder</a>
-            <button type="button" class="btn btn-primary">Refresh <span class="badge">{{ vlilleStationList.length }}</span></button>
-
+            <button type="button" (click)="getData();" class="btn btn-primary">Refresh <span class="badge">{{ vlilleStationList.length }}</span></button>
+            <!---->
         </div>
 
     </div>
@@ -16,7 +16,7 @@
 <div class="container" *ngIf='isLoaded'>
     <div *ngFor='let vlille of vlilleStationList'>
         <div class="panel panel-default">
-            <div class="panel-heading">{{ vlille.nom }}</div>
+            <div class="panel-heading">{{ vlille.nom }} - <span class="glyphicon glyphicon-record"></span>{{ vlille.distance*1000 | number : '1.0-0'}} m</div>
             <div class="panel-body">
                 <span class="label label-default">{{ vlille.nbplacesdispo}}<span class="glyphicon glyphicon-chevron-down"></span></span>
                 <span class="label label-primary">{{ vlille.nbvelosdispo}}<span class="glyphicon glyphicon-chevron-up"></span></span>

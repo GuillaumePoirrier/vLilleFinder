@@ -16,7 +16,7 @@ export class DataComponent implements OnInit {
   longitude: number;
   latitude: number;
   isLoaded= false;
-
+  isLocated= false;
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
@@ -24,6 +24,7 @@ export class DataComponent implements OnInit {
   }
   public getData() {
     this.isLoaded= false;
+    this.isLocated=false;
     this.VlilleList = [];
     this.vlilleStationList = [];
     this.http.get(this.vlilleurl)
@@ -62,7 +63,7 @@ export class DataComponent implements OnInit {
     }
   }
   sortListByDistance() {
-
+    this.isLocated=true;
     for (let i = 0; i < this.vlilleStationList.length; i++) {
       let vlille = this.vlilleStationList[i];
       let distance = this.getDistance(this.latitude, this.longitude, vlille.latitude, vlille.longitude);
@@ -71,26 +72,20 @@ export class DataComponent implements OnInit {
     this.vlilleStationList.sort(function (a, b) {
       return a.distance - b.distance;
     });
+    console.log(this.vlilleStationList);
     this.isLoaded = true;
   }
 
   private getDistance(lat1, lon1, lat2, lon2) {
-    if ((lat1 == lat2) && (lon1 == lon2)) {
-      return 0;
-    }
-    else {
-      var radlat1 = Math.PI * lat1 / 180;
-      var radlat2 = Math.PI * lat2 / 180;
-      var theta = lon1 - lon2;
-      var radtheta = Math.PI * theta / 180;
-      var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
-      if (dist > 1) {
-        dist = 1;
-      }
-      dist = Math.acos(dist);
-      dist = dist * 180 / Math.PI;
-      return dist;
-    }
+    var R = 6371; // km (change this constant to get miles)
+    var dLat = (lat2-lat1) * Math.PI / 180;
+    var dLon = (lon2-lon1) * Math.PI / 180;
+    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(lat1 * Math.PI / 180 ) * Math.cos(lat2 * Math.PI / 180 ) *
+      Math.sin(dLon/2) * Math.sin(dLon/2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    var d = R * c;
+    return d;
   }
 
 }
