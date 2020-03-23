@@ -17,14 +17,19 @@ export class DataComponent implements OnInit {
   latitude: number;
   isLoaded= false;
   isLocated= false;
+  isLocatedFound= true;
+
+  
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
     this.getData();
+    
   }
   public getData() {
     this.isLoaded= false;
     this.isLocated=false;
+    this.isLocatedFound= true;
     this.VlilleList = [];
     this.vlilleStationList = [];
     this.http.get(this.vlilleurl)
@@ -52,15 +57,14 @@ export class DataComponent implements OnInit {
 
   }
   private getPosition() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
+    navigator.geolocation.getCurrentPosition((position) => {
         this.longitude = position.coords.longitude;
         this.latitude = position.coords.latitude;
+        this.isLocatedFound = true;
         this.sortListByDistance();
       });
-    } else {
-      console.log("No support for geolocation");
-    }
+      setTimeout(() => {this.isLocatedFound = false},3000);
+    
   }
   sortListByDistance() {
     this.isLocated=true;
@@ -72,7 +76,8 @@ export class DataComponent implements OnInit {
     this.vlilleStationList.sort(function (a, b) {
       return a.distance - b.distance;
     });
-    console.log(this.vlilleStationList);
+    //console.log(this.vlilleStationList);
+    
     this.isLoaded = true;
   }
 
