@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 declare var ol: any;
 
 
+
 @Component({
   selector: 'app-data',
   templateUrl: './data.component.html',
@@ -17,6 +18,7 @@ export class DataComponent implements OnInit {
   isLoaded = false;
   isLocated = false;
   isLocatedFound = true;
+ 
   map: any;
   markerSource = new ol.source.Vector();
 
@@ -32,6 +34,7 @@ export class DataComponent implements OnInit {
     this.isLoaded = false;
     this.isLocated = false;
     this.isLocatedFound = true;
+    
     this.VlilleList = [];
     this.vlilleStationList = [];
     this.http.get(this.vlilleurl)
@@ -84,10 +87,10 @@ export class DataComponent implements OnInit {
 
   }
   private showMaps() {
+    document.getElementById("map").innerHTML=null;
     this.map = new ol.Map({
+     
       target: 'map',
-      interactions:null,
-      control: null,
       layers: [
         new ol.layer.Tile({
           source: new ol.source.OSM()
@@ -95,8 +98,19 @@ export class DataComponent implements OnInit {
       ],
       view: new ol.View({
         center: ol.proj.fromLonLat([this.longitude, this.latitude]),
-        zoom: 17
-      })
+        zoom: 16
+      }),
+      interactions: ol.interaction.defaults({
+        doubleClickZoom: false,
+        dragAndDrop: false,
+        dragPan: false,
+        keyboardPan: false,
+        keyboardZoom: false,
+        mouseWheelZoom: false,
+        pointer: false,
+        select: false
+      }),
+      controls:[]
     });
     
 
@@ -111,10 +125,8 @@ export class DataComponent implements OnInit {
     var markerVectorLayer = new ol.layer.Vector({
       source: vectorSource,
     });
-    var style = new ol.style.Style({
-      color: 'red'
-    })
     this.map.addLayer(markerVectorLayer);
+    
   }
 
   private getDistance(lat1, lon1, lat2, lon2) {

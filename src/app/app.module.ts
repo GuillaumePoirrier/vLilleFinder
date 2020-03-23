@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { DataComponent } from './data/data.component';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,

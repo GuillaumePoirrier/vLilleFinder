@@ -27,3 +27,7 @@ button {
 .map-container {
     margin-bottom: 30px;
 }
+
+#content {
+    overflow-y: scroll;
+}
