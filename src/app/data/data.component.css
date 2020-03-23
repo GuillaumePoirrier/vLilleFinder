@@ -7,10 +7,6 @@ button {
     margin-left: 5px;
 }
 
-.refresh {
-    margin: auto;
-}
-
 #loading {
     display: block;
     margin-left: auto;

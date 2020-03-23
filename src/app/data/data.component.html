@@ -2,19 +2,9 @@
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand" href="#">VLilleFinder</a>
-        </div>
-        <div id="navbar">
-            <ul class="nav navbar-nav">
-
-                <li>
-                    <input type="text" class="form-control" id="search">
-                </li>
-                <li><a href="" class="refresh navbar-default"><span (click)="getData();" class="label label-primary"><span class="glyphicon glyphicon-refresh"></span></span></a>
-                </li>
-            </ul>
+            <button class="refresh btn btn-primary" (click)="getData();">Refresh <span class="glyphicon glyphicon-refresh"></span></button>
 
         </div>
-
     </div>
 </nav>
 
@@ -25,7 +15,7 @@
 <div class="container" *ngIf='isLoaded'>
     <div *ngFor='let vlille of vlilleStationList | slice:0:10;'>
         <div class="panel panel-default">
-            <div class="panel-heading">{{ vlille.nom }} - <span class="glyphicon glyphicon-record"></span>{{ vlille.distance*1000 | number : '1.0-0'}} m</div>
+            <div class="panel-heading">{{ vlille.nom }} - <span class="dispo glyphicon glyphicon-record"></span>{{ vlille.distance*1000 | number : '1.0-0'}} m</div>
             <div class="panel-body">
                 <span class="dispo label label-default">{{ vlille.nbplacesdispo}}<span class="glyphicon glyphicon-chevron-down"></span></span>
                 <span class="dispo label label-primary">{{ vlille.nbvelosdispo}}<span class="glyphicon glyphicon-chevron-up"></span></span>
