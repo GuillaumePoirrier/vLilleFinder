@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
-
+declare var ol: any;
 
 
 @Component({
@@ -15,21 +14,24 @@ export class DataComponent implements OnInit {
   vlilleStationList: VLilleStation[];
   longitude: number;
   latitude: number;
-  isLoaded= false;
-  isLocated= false;
-  isLocatedFound= true;
+  isLoaded = false;
+  isLocated = false;
+  isLocatedFound = true;
+  map: any;
+  markerSource = new ol.source.Vector();
 
-  
+
+
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
     this.getData();
-    
+
   }
   public getData() {
-    this.isLoaded= false;
-    this.isLocated=false;
-    this.isLocatedFound= true;
+    this.isLoaded = false;
+    this.isLocated = false;
+    this.isLocatedFound = true;
     this.VlilleList = [];
     this.vlilleStationList = [];
     this.http.get(this.vlilleurl)
@@ -58,16 +60,16 @@ export class DataComponent implements OnInit {
   }
   private getPosition() {
     navigator.geolocation.getCurrentPosition((position) => {
-        this.longitude = position.coords.longitude;
-        this.latitude = position.coords.latitude;
-        this.isLocatedFound = true;
-        this.sortListByDistance();
-      });
-      setTimeout(() => {this.isLocatedFound = false},3000);
-    
+      this.longitude = position.coords.longitude;
+      this.latitude = position.coords.latitude;
+      this.isLocatedFound = true;
+      this.sortListByDistance();
+    });
+    setTimeout(() => { this.isLocatedFound = false }, 4000);
+
   }
   sortListByDistance() {
-    this.isLocated=true;
+    this.isLocated = true;
     for (let i = 0; i < this.vlilleStationList.length; i++) {
       let vlille = this.vlilleStationList[i];
       let distance = this.getDistance(this.latitude, this.longitude, vlille.latitude, vlille.longitude);
@@ -77,18 +79,52 @@ export class DataComponent implements OnInit {
       return a.distance - b.distance;
     });
     //console.log(this.vlilleStationList);
-    
     this.isLoaded = true;
+    this.showMaps();
+
+  }
+  private showMaps() {
+    this.map = new ol.Map({
+      target: 'map',
+      interactions:null,
+      control: null,
+      layers: [
+        new ol.layer.Tile({
+          source: new ol.source.OSM()
+        })
+      ],
+      view: new ol.View({
+        center: ol.proj.fromLonLat([this.longitude, this.latitude]),
+        zoom: 17
+      })
+    });
+    
+
+    var marker = new ol.Feature({
+      geometry: new ol.geom.Point(
+        ol.proj.fromLonLat([this.longitude, this.latitude])
+      ),
+    });
+    var vectorSource = new ol.source.Vector({
+      features: [marker]
+    });
+    var markerVectorLayer = new ol.layer.Vector({
+      source: vectorSource,
+    });
+    var style = new ol.style.Style({
+      color: 'red'
+    })
+    this.map.addLayer(markerVectorLayer);
   }
 
   private getDistance(lat1, lon1, lat2, lon2) {
     var R = 6371; // km (change this constant to get miles)
-    var dLat = (lat2-lat1) * Math.PI / 180;
-    var dLon = (lon2-lon1) * Math.PI / 180;
-    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-      Math.cos(lat1 * Math.PI / 180 ) * Math.cos(lat2 * Math.PI / 180 ) *
-      Math.sin(dLon/2) * Math.sin(dLon/2);
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    var dLat = (lat2 - lat1) * Math.PI / 180;
+    var dLon = (lon2 - lon1) * Math.PI / 180;
+    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     var d = R * c;
     return d;
   }
@@ -116,3 +152,4 @@ export class VLilleStation {
   }
 
 }
+

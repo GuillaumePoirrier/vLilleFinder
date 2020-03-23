@@ -23,3 +23,7 @@ button {
     margin-top: 4%;
     max-width: 150px;
 }
+
+.map-container {
+    margin-bottom: 30px;
+}

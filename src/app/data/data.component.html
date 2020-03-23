@@ -20,14 +20,16 @@
         </div>
     </div>
 </nav>
-
-
+<div class="container map-container">
+    <div id="map" class="map"></div>
+</div>
 <div class="container" *ngIf='!isLoaded'>
     <div class="alert alert-warning" role="alert" *ngIf='!isLocatedFound'>
         Assurez-vous de bien avoir activé votre GPS.
     </div>
     <img id="loading" src="./assets/img/loading.gif">
 </div>
+
 
 <div class="container" *ngIf='isLoaded'>
     <div *ngFor='let vlille of vlilleStationList | slice:0:10;'>
@@ -37,7 +39,7 @@
                 <span class="dispo label label-default">{{ vlille.nbplacesdispo}}<span class="glyphicon glyphicon-chevron-down"></span></span>
                 <span class="dispo label label-primary">{{ vlille.nbvelosdispo}}<span class="glyphicon glyphicon-chevron-up"></span></span>
                 <span [ngClass]="( vlille.etat == 'EN SERVICE') ? 'dispo label label-success' : 'dispo label label-warning'">{{ vlille.etat}}</span>
-                <div id="map" class="map"></div>
+
             </div>
 
         </div>
