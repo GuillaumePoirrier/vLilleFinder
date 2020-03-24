@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+
+
+
 declare var ol: any;
 
 
@@ -61,25 +64,18 @@ export class DataComponent implements OnInit {
     this.getPosition();
 
   }
+  
+ 
   private getPosition() {
-    /*cordova.plugins.locationAccuracy.request(function (success) {
-      console.log("Successfully requested accuracy: " + success.message);
-    }, function (error) {
-      console.error("Accuracy request failed: error code=" + error.code + "; error message=" + error.message);
-      if (error.code !== cordova.plugins.locationAccuracy.ERROR_USER_DISAGREED) {
-        if (window.confirm("Failed to automatically set Location Mode to 'High Accuracy'. Would you like to switch to the Location Settings page and do this manually?")) {
-          cordova.plugins.diagnostic.switchToLocationSettings();
-        }
-      }
-    }, cordova.plugins.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY);*/
-
+    
     navigator.geolocation.getCurrentPosition((position) => {
       this.longitude = position.coords.longitude;
       this.latitude = position.coords.latitude;
       this.isLocatedFound = true;
       this.sortListByDistance();
-    });
-    setTimeout(() => { this.isLocatedFound = false }, 3000);
+    },this.getPosition,{timeout: 4000, enableHighAccuracy:true});
+    setTimeout(() => { this.isLocatedFound = false }, 4000);
+    
 
   }
   sortListByDistance() {

@@ -6,39 +6,39 @@
 /* navbar */
 
 .navbar-default {
-    background-color: #F8F8F8;
-    border-color: #E7E7E7;
+    background-color: #cc0033;
+    border-color: white;
 }
 
 
 /* Title */
 
 .navbar-default .navbar-brand {
-    color: #777;
+    color: white;
 }
 
 .navbar-default .navbar-brand:hover,
 .navbar-default .navbar-brand:focus {
-    color: #5E5E5E;
+    color: white;
 }
 
 
 /* Link */
 
 .navbar-default .navbar-nav>li>a {
-    color: #777;
+    color: white;
 }
 
 .navbar-default .navbar-nav>li>a:hover,
 .navbar-default .navbar-nav>li>a:focus {
-    color: #333;
+    color: white;
 }
 
 .navbar-default .navbar-nav>.active>a,
 .navbar-default .navbar-nav>.active>a:hover,
 .navbar-default .navbar-nav>.active>a:focus {
     color: #555;
-    background-color: #E7E7E7;
+    background-color: rgb(66, 3, 3);
 }
 
 .navbar-default .navbar-nav>.open>a,
@@ -52,45 +52,45 @@
 /* Caret */
 
 .navbar-default .navbar-nav>.dropdown>a .caret {
-    border-top-color: #777;
-    border-bottom-color: #777;
+    border-top-color: white;
+    border-bottom-color: white;
 }
 
 .navbar-default .navbar-nav>.dropdown>a:hover .caret,
 .navbar-default .navbar-nav>.dropdown>a:focus .caret {
-    border-top-color: #333;
-    border-bottom-color: #333;
+    border-top-color: white;
+    border-bottom-color: white;
 }
 
 .navbar-default .navbar-nav>.open>a .caret,
 .navbar-default .navbar-nav>.open>a:hover .caret,
 .navbar-default .navbar-nav>.open>a:focus .caret {
-    border-top-color: #555;
-    border-bottom-color: #555;
+    border-top-color: white;
+    border-bottom-color: white;
 }
 
 
 /* Mobile version */
 
 .navbar-default .navbar-toggle {
-    border-color: #DDD;
+    border-color: #cc0033;
 }
 
 .navbar-default .navbar-toggle:hover,
 .navbar-default .navbar-toggle:focus {
-    background-color: #DDD;
+    background-color: #cc0033;
 }
 
 .navbar-default .navbar-toggle .icon-bar {
-    background-color: #CCC;
+    background-color: white;
 }
 
 @media (max-width: 767px) {
     .navbar-default .navbar-nav .open .dropdown-menu>li>a {
-        color: #777;
+        color: white;
     }
     .navbar-default .navbar-nav .open .dropdown-menu>li>a:hover,
     .navbar-default .navbar-nav .open .dropdown-menu>li>a:focus {
-        color: #333;
+        color: white;
     }
 }
