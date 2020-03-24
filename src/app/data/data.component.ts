@@ -62,13 +62,24 @@ export class DataComponent implements OnInit {
 
   }
   private getPosition() {
+    /*cordova.plugins.locationAccuracy.request(function (success) {
+      console.log("Successfully requested accuracy: " + success.message);
+    }, function (error) {
+      console.error("Accuracy request failed: error code=" + error.code + "; error message=" + error.message);
+      if (error.code !== cordova.plugins.locationAccuracy.ERROR_USER_DISAGREED) {
+        if (window.confirm("Failed to automatically set Location Mode to 'High Accuracy'. Would you like to switch to the Location Settings page and do this manually?")) {
+          cordova.plugins.diagnostic.switchToLocationSettings();
+        }
+      }
+    }, cordova.plugins.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY);*/
+
     navigator.geolocation.getCurrentPosition((position) => {
       this.longitude = position.coords.longitude;
       this.latitude = position.coords.latitude;
       this.isLocatedFound = true;
       this.sortListByDistance();
     });
-    setTimeout(() => { this.isLocatedFound = false }, 4000);
+    setTimeout(() => { this.isLocatedFound = false }, 3000);
 
   }
   sortListByDistance() {
@@ -146,7 +157,7 @@ export class DataComponent implements OnInit {
 
       });
 
-      if(this.vlilleStationList[i].selected == true){
+      if (this.vlilleStationList[i].selected == true) {
         marker.setStyle(new ol.style.Style({
           image: new ol.style.Icon({
             color: '#00ff00',
@@ -156,16 +167,17 @@ export class DataComponent implements OnInit {
             scale: 0.2
           })
         }));
-      }else{
-      marker.setStyle(new ol.style.Style({
-        image: new ol.style.Icon({
-          color: '#ff92c1',
-          crossOrigin: 'anonymous',
-          src: './assets/img/station.svg',
-          anchor: [0.45, 0.8],
-          scale: 0.2
-        })
-      }));}
+      } else {
+        marker.setStyle(new ol.style.Style({
+          image: new ol.style.Icon({
+            color: '#ff92c1',
+            crossOrigin: 'anonymous',
+            src: './assets/img/station.svg',
+            anchor: [0.45, 0.8],
+            scale: 0.2
+          })
+        }));
+      }
 
       var vectorSource = new ol.source.Vector({
         features: [marker]
@@ -194,7 +206,7 @@ export class DataComponent implements OnInit {
     return d;
   }
   private selectStation(libelle) {
-    
+
     for (let i = 0; i < 10; i++) {
       if (this.vlilleStationList[i].selected == true) {
         this.vlilleStationList[i].selected = false;
