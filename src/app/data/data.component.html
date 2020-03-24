@@ -1,50 +1,29 @@
-<div id="content">
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-                <a class="navbar-brand" href="#">VLille Watcher</a>
-            </div>
-            <div class="collapse navbar-collapse" id="myNavbar">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a href="#">A Propos</a>
-                    </li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><button class="refresh btn btn-primary btn-navbar" (click)="getData();">Refresh <span class="glyphicon glyphicon-refresh"></span></button></li>
-                </ul>
-            </div>
+<div id="main">
+    <div class="warp">
+        <div class="container">
+            <div id="map" class="map"></div>
         </div>
-    </nav>
-
-    <div class="container map-container">
-        <div id="map" class="map"></div>
-    </div>
-    <div class="container" *ngIf='!isLoaded'>
-        <div class="alert alert-warning" role="alert" *ngIf='!isLocatedFound'>
-            Assurez-vous de bien avoir activé votre GPS.
+        <div class="container" *ngIf='!isLoaded'>
+            <div class="alert alert-warning" role="alert" *ngIf='!isLocatedFound'>
+                Assurez-vous de bien avoir activé votre GPS.
+            </div>
+            <img id="loading" src="./assets/img/loading.gif">
         </div>
-        <img id="loading" src="./assets/img/loading.gif">
-    </div>
+        <div class="container list" *ngIf='isLoaded'>
+            <div *ngFor='let vlille of vlilleStationList | slice:0:10;'>
+                <div class="panel panel-default">
+                    <div class="panel-heading">{{ vlille.nom }} - <span class="dispo glyphicon glyphicon-record"></span>{{ vlille.distance*1000 | number : '1.0-0'}} m</div>
+                    <div class="panel-body">
+                        <span class="dispo label label-default">{{ vlille.nbplacesdispo }} <span class="glyphicon glyphicon-chevron-down"></span></span>
+                        <span class="dispo label label-primary">{{ vlille.nbvelosdispo }} <span class="glyphicon glyphicon-chevron-up"></span></span>
+                        <span [ngClass]="( vlille.etat == 'EN SERVICE') ? 'dispo label label-success' : 'dispo label label-warning'">{{ vlille.etat}}</span>
 
-
-    <div class="container" *ngIf='isLoaded'>
-        <div *ngFor='let vlille of vlilleStationList | slice:0:10;'>
-            <div class="panel panel-default">
-                <div class="panel-heading">{{ vlille.nom }} - <span class="dispo glyphicon glyphicon-record"></span>{{ vlille.distance*1000 | number : '1.0-0'}} m</div>
-                <div class="panel-body">
-                    <span class="dispo label label-default">{{ vlille.nbplacesdispo}}<span class="glyphicon glyphicon-chevron-down"></span></span>
-                    <span class="dispo label label-primary">{{ vlille.nbvelosdispo}}<span class="glyphicon glyphicon-chevron-up"></span></span>
-                    <span [ngClass]="( vlille.etat == 'EN SERVICE') ? 'dispo label label-success' : 'dispo label label-warning'">{{ vlille.etat}}</span>
+                    </div>
 
                 </div>
-
             </div>
         </div>
     </div>
 </div>
+
+<button style="display: none;" id="refresh" class="refresh btn btn-primary btn-navbar" (click)="getData();">Refresh <span class="glyphicon glyphicon-refresh"></span></button>

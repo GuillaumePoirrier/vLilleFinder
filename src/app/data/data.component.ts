@@ -18,7 +18,7 @@ export class DataComponent implements OnInit {
   isLoaded = false;
   isLocated = false;
   isLocatedFound = true;
- 
+
   map: any;
   markerSource = new ol.source.Vector();
 
@@ -34,7 +34,7 @@ export class DataComponent implements OnInit {
     this.isLoaded = false;
     this.isLocated = false;
     this.isLocatedFound = true;
-    
+
     this.VlilleList = [];
     this.vlilleStationList = [];
     this.http.get(this.vlilleurl)
@@ -87,9 +87,9 @@ export class DataComponent implements OnInit {
 
   }
   private showMaps() {
-    document.getElementById("map").innerHTML=null;
+    document.getElementById("map").innerHTML = null;
     this.map = new ol.Map({
-     
+
       target: 'map',
       layers: [
         new ol.layer.Tile({
@@ -98,7 +98,7 @@ export class DataComponent implements OnInit {
       ],
       view: new ol.View({
         center: ol.proj.fromLonLat([this.longitude, this.latitude]),
-        zoom: 16
+        zoom: 15
       }),
       interactions: ol.interaction.defaults({
         doubleClickZoom: false,
@@ -110,15 +110,24 @@ export class DataComponent implements OnInit {
         pointer: false,
         select: false
       }),
-      controls:[]
+      controls: []
     });
-    
+
 
     var marker = new ol.Feature({
       geometry: new ol.geom.Point(
         ol.proj.fromLonLat([this.longitude, this.latitude])
       ),
     });
+    marker.setStyle(new ol.style.Style({
+      image: new ol.style.Icon({
+        color: '#8959A8',
+        crossOrigin: 'anonymous',
+        src: './assets/img/me.svg',
+        scale: 0.5
+      })
+    }));
+
     var vectorSource = new ol.source.Vector({
       features: [marker]
     });
@@ -126,7 +135,37 @@ export class DataComponent implements OnInit {
       source: vectorSource,
     });
     this.map.addLayer(markerVectorLayer);
-    
+
+    for (let i = 0; i < 10; i++) {
+
+      var marker = new ol.Feature({
+        geometry: new ol.geom.Point(
+          ol.proj.fromLonLat([this.vlilleStationList[i].longitude, this.vlilleStationList[i].latitude])
+        )
+
+      });
+      marker.setStyle(new ol.style.Style({
+        image: new ol.style.Icon({
+          color: '#8959A8',
+          crossOrigin: 'anonymous',
+          src: './assets/img/station.svg',
+          scale: 0.2
+        })
+      }));
+
+      var vectorSource = new ol.source.Vector({
+        features: [marker]
+      });
+      var markerVectorLayer = new ol.layer.Vector({
+        source: vectorSource,
+      });
+      this.map.addLayer(markerVectorLayer);
+
+    }
+
+
+
+
   }
 
   private getDistance(lat1, lon1, lat2, lon2) {
