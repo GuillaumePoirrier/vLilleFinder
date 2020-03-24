@@ -11,7 +11,7 @@
         </div>
         <div class="container list" *ngIf='isLoaded'>
             <div *ngFor='let vlille of vlilleStationList | slice:0:10;'>
-                <div class="panel panel-default">
+                <div class="panel panel-default" (click)="selectStation(vlille.libelle);">
                     <div class="panel-heading">{{ vlille.nom }} - <span class="dispo glyphicon glyphicon-record"></span>{{ vlille.distance*1000 | number : '1.0-0'}} m</div>
                     <div class="panel-body">
                         <span class="dispo label label-default">{{ vlille.nbplacesdispo }} <span class="glyphicon glyphicon-chevron-down"></span></span>

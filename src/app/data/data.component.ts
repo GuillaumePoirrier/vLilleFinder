@@ -124,6 +124,7 @@ export class DataComponent implements OnInit {
         color: '#8959A8',
         crossOrigin: 'anonymous',
         src: './assets/img/me.svg',
+        anchor: [0.45, 0.8],
         scale: 0.5
       })
     }));
@@ -144,14 +145,27 @@ export class DataComponent implements OnInit {
         )
 
       });
+
+      if(this.vlilleStationList[i].selected == true){
+        marker.setStyle(new ol.style.Style({
+          image: new ol.style.Icon({
+            color: '#00ff00',
+            crossOrigin: 'anonymous',
+            src: './assets/img/station.svg',
+            anchor: [0.45, 0.8],
+            scale: 0.2
+          })
+        }));
+      }else{
       marker.setStyle(new ol.style.Style({
         image: new ol.style.Icon({
-          color: '#8959A8',
+          color: '#ff92c1',
           crossOrigin: 'anonymous',
           src: './assets/img/station.svg',
+          anchor: [0.45, 0.8],
           scale: 0.2
         })
-      }));
+      }));}
 
       var vectorSource = new ol.source.Vector({
         features: [marker]
@@ -179,6 +193,19 @@ export class DataComponent implements OnInit {
     var d = R * c;
     return d;
   }
+  private selectStation(libelle) {
+    
+    for (let i = 0; i < 10; i++) {
+      if (this.vlilleStationList[i].selected == true) {
+        this.vlilleStationList[i].selected = false;
+      }
+      if (this.vlilleStationList[i].libelle == libelle) {
+        this.vlilleStationList[i].selected = true;
+      }
+    }
+    this.showMaps();
+
+  }
 
 }
 
@@ -190,8 +217,9 @@ export class VLilleStation {
   nom: string;
   latitude: number;
   longitude: number;
-  distance: number
-  constructor(libelle: number, etat: string, nbvelosdispo: number, nbplacesdispo: number, nom: string, latitude: number, longitude: number, distance?: number) {
+  distance: number;
+  selected: boolean;
+  constructor(libelle: number, etat: string, nbvelosdispo: number, nbplacesdispo: number, nom: string, latitude: number, longitude: number, distance?: number, selected?: boolean) {
     this.libelle = libelle;
     this.etat = etat;
     this.nbplacesdispo = nbplacesdispo;
@@ -200,6 +228,7 @@ export class VLilleStation {
     this.latitude = latitude;
     this.longitude = longitude;
     this.distance = distance;
+    this.selected = selected;
   }
 
 }
