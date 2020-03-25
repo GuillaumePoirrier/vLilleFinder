@@ -91,7 +91,18 @@ export class CarteComponent implements OnInit {
       view: new ol.View({
         center: ol.proj.fromLonLat([this.longitude, this.latitude]),
         zoom: 15
-      })
+      }),
+      interactions: ol.interaction.defaults({
+        doubleClickZoom: false,
+        dragAndDrop: false,
+        dragPan: false,
+        keyboardPan: false,
+        keyboardZoom: false,
+        mouseWheelZoom: false,
+        pointer: false,
+        select: false
+      }),
+      controls: []
     });
 
 
