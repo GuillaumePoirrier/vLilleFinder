@@ -34,6 +34,20 @@ body {
     transition: transform .3s
 }
 
-#map {
-    margin-top: 10px;
+.panel-heading {
+    background-color: #cc0033;
+    color: white;
+}
+
+.panel-default {
+    border: #cc0033 1px solid;
+}
+
+#places {
+    scale: 0.5;
+    fill: white;
+}
+
+#velos {
+    fill: white;
 }

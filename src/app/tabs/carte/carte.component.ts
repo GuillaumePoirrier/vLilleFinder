@@ -2,28 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 declare var ol: any;
 
-
-
 @Component({
-  selector: 'app-data',
-  templateUrl: './data.component.html',
-  styleUrls: ['./data.component.css']
+  selector: 'app-carte',
+  templateUrl: './carte.component.html',
+  styleUrls: ['./carte.component.css']
 })
-export class DataComponent implements OnInit {
+export class CarteComponent implements OnInit {
   vlilleurl = 'https://opendata.lillemetropole.fr/api/records/1.0/search/?dataset=vlille-realtime&rows=1000&facet=libelle&facet=nom&facet=etat';
   VlilleList: any[];
   vlilleStationList: VLilleStation[];
   longitude: number;
   latitude: number;
-  isLoaded = false;
-  isLocated = false;
-  isLocatedFound = true;
 
   map: any;
-  markerSource = new ol.source.Vector();
-
-
-
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
@@ -31,9 +22,7 @@ export class DataComponent implements OnInit {
 
   }
   public getData() {
-    this.isLoaded = false;
-    this.isLocated = false;
-    this.isLocatedFound = true;
+  
 
     this.VlilleList = [];
     this.vlilleStationList = [];
@@ -61,29 +50,21 @@ export class DataComponent implements OnInit {
     this.getPosition();
 
   }
+  
+ 
   private getPosition() {
-    /*cordova.plugins.locationAccuracy.request(function (success) {
-      console.log("Successfully requested accuracy: " + success.message);
-    }, function (error) {
-      console.error("Accuracy request failed: error code=" + error.code + "; error message=" + error.message);
-      if (error.code !== cordova.plugins.locationAccuracy.ERROR_USER_DISAGREED) {
-        if (window.confirm("Failed to automatically set Location Mode to 'High Accuracy'. Would you like to switch to the Location Settings page and do this manually?")) {
-          cordova.plugins.diagnostic.switchToLocationSettings();
-        }
-      }
-    }, cordova.plugins.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY);*/
-
+    
     navigator.geolocation.getCurrentPosition((position) => {
       this.longitude = position.coords.longitude;
       this.latitude = position.coords.latitude;
-      this.isLocatedFound = true;
       this.sortListByDistance();
-    });
-    setTimeout(() => { this.isLocatedFound = false }, 3000);
+    },this.getPosition,{timeout: 4000, enableHighAccuracy:true});
+  
+    
 
   }
   sortListByDistance() {
-    this.isLocated = true;
+    
     for (let i = 0; i < this.vlilleStationList.length; i++) {
       let vlille = this.vlilleStationList[i];
       let distance = this.getDistance(this.latitude, this.longitude, vlille.latitude, vlille.longitude);
@@ -93,15 +74,15 @@ export class DataComponent implements OnInit {
       return a.distance - b.distance;
     });
     //console.log(this.vlilleStationList);
-    this.isLoaded = true;
+  
     this.showMaps();
 
   }
   private showMaps() {
-    document.getElementById("map").innerHTML = null;
+    //document.getElementById("mapfull").innerHTML = null;
     this.map = new ol.Map({
 
-      target: 'map',
+      target: 'mapfull',
       layers: [
         new ol.layer.Tile({
           source: new ol.source.OSM()
@@ -134,9 +115,9 @@ export class DataComponent implements OnInit {
       image: new ol.style.Icon({
         color: '#8959A8',
         crossOrigin: 'anonymous',
-        src: './assets/img/me.svg',
+        src: './assets/img/me.png',
         anchor: [0.45, 0.8],
-        scale: 0.5
+        scale: 0.015
       })
     }));
 
@@ -148,7 +129,7 @@ export class DataComponent implements OnInit {
     });
     this.map.addLayer(markerVectorLayer);
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < this.vlilleStationList.length; i++) {
 
       var marker = new ol.Feature({
         geometry: new ol.geom.Point(
@@ -157,17 +138,6 @@ export class DataComponent implements OnInit {
 
       });
 
-      if (this.vlilleStationList[i].selected == true) {
-        marker.setStyle(new ol.style.Style({
-          image: new ol.style.Icon({
-            color: '#00ff00',
-            crossOrigin: 'anonymous',
-            src: './assets/img/station.svg',
-            anchor: [0.45, 0.8],
-            scale: 0.2
-          })
-        }));
-      } else {
         marker.setStyle(new ol.style.Style({
           image: new ol.style.Icon({
             color: '#ff92c1',
@@ -177,7 +147,7 @@ export class DataComponent implements OnInit {
             scale: 0.2
           })
         }));
-      }
+      
 
       var vectorSource = new ol.source.Vector({
         features: [marker]
@@ -205,22 +175,7 @@ export class DataComponent implements OnInit {
     var d = R * c;
     return d;
   }
-  private selectStation(libelle) {
-
-    for (let i = 0; i < 10; i++) {
-      if (this.vlilleStationList[i].selected == true) {
-        this.vlilleStationList[i].selected = false;
-      }
-      if (this.vlilleStationList[i].libelle == libelle) {
-        this.vlilleStationList[i].selected = true;
-      }
-    }
-    this.showMaps();
-
-  }
-
 }
-
 export class VLilleStation {
   libelle: number;
   etat: string;
