@@ -34,10 +34,6 @@ body {
     transition: transform .3s
 }
 
-#map {
-    margin-top: 10px;
-}
-
 .panel-heading {
     background-color: #cc0033;
     color: white;

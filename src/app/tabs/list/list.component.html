@@ -14,8 +14,8 @@
                 <div class="panel panel-default" (click)="selectStation(vlille.libelle);">
                     <div class="panel-heading">{{ vlille.nom }} - <span class="dispo glyphicon glyphicon-record"></span>{{ vlille.distance*1000 | number : '1.0-0'}} m</div>
                     <div class="panel-body">
-                        <span class="dispo label label-default">{{ vlille.nbplacesdispo }} <span class="glyphicon glyphicon-chevron-down"><img id="places" src="./assets/img/bicycle.svg"></span></span>
-                        <span class="dispo label label-primary">{{ vlille.nbvelosdispo }} <span class="glyphicon glyphicon-chevron-up"><img id="velos" src="./assets/img/bicycle.svg"></span></span>
+                        <span class="dispo label label-default">{{ vlille.nbplacesdispo }} <span class="glyphicon glyphicon-chevron-down"></span></span>
+                        <span class="dispo label label-primary">{{ vlille.nbvelosdispo }} <span class="glyphicon glyphicon-chevron-up"></span></span>
                         <span [ngClass]="( vlille.etat == 'EN SERVICE') ? 'dispo label label-success' : 'dispo label label-warning'">{{ vlille.etat}}</span>
 
                     </div>

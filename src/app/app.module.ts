@@ -4,9 +4,10 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DataComponent } from './data/data.component';
+import { ListComponent } from './tabs/list/list.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { IonicModule } from '@ionic/angular';
+import { TabsComponent } from './tabs/tabs.component';
+import { CarteComponent } from './tabs/carte/carte.component';
 
 
 
@@ -14,14 +15,15 @@ import { IonicModule } from '@ionic/angular';
 @NgModule({
   declarations: [
     AppComponent,
-    DataComponent,
-    NavbarComponent
+    ListComponent,
+    NavbarComponent,
+    TabsComponent,
+    CarteComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule,
-    IonicModule.forRoot()
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

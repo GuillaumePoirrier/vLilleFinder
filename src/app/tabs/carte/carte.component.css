@@ -1,0 +1,9 @@
+#mapfull {
+    height: 80vh;
+}
+
+.map-wrapper {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
