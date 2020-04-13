@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { componentFactoryName } from '@angular/compiler';
 declare var ol: any;
 
 @Component({
@@ -13,7 +14,8 @@ export class CarteComponent implements OnInit {
   vlilleStationList: VLilleStation[];
   longitude: number;
   latitude: number;
-
+  isLoaded = false;
+  isLocatedFound = true;
   map: any;
   constructor(private http: HttpClient) { }
 
@@ -22,8 +24,8 @@ export class CarteComponent implements OnInit {
 
   }
   public getData() {
-  
-
+    this.isLocatedFound = true;
+    this.isLoaded = false;
     this.VlilleList = [];
     this.vlilleStationList = [];
     this.http.get(this.vlilleurl)
@@ -50,21 +52,22 @@ export class CarteComponent implements OnInit {
     this.getPosition();
 
   }
-  
- 
+
+
   private getPosition() {
-    
+
     navigator.geolocation.getCurrentPosition((position) => {
       this.longitude = position.coords.longitude;
       this.latitude = position.coords.latitude;
+      this.isLocatedFound = true;
       this.sortListByDistance();
-    },this.getPosition,{timeout: 4000, enableHighAccuracy:true});
-  
-    
+    }, this.getPosition, { timeout: 4000, enableHighAccuracy: true });
 
+
+    setTimeout(() => { this.isLocatedFound = false }, 4000);
   }
   sortListByDistance() {
-    
+    this.isLoaded = true;
     for (let i = 0; i < this.vlilleStationList.length; i++) {
       let vlille = this.vlilleStationList[i];
       let distance = this.getDistance(this.latitude, this.longitude, vlille.latitude, vlille.longitude);
@@ -74,12 +77,12 @@ export class CarteComponent implements OnInit {
       return a.distance - b.distance;
     });
     //console.log(this.vlilleStationList);
-  
+
     this.showMaps();
 
   }
   private showMaps() {
-    //document.getElementById("mapfull").innerHTML = null;
+
     this.map = new ol.Map({
 
       target: 'mapfull',
@@ -91,8 +94,8 @@ export class CarteComponent implements OnInit {
       view: new ol.View({
         center: ol.proj.fromLonLat([this.longitude, this.latitude]),
         zoom: 15
-      }),
-      interactions: ol.interaction.defaults({
+      })
+      /*interactions: ol.interaction.defaults({
         doubleClickZoom: false,
         dragAndDrop: false,
         dragPan: false,
@@ -102,22 +105,21 @@ export class CarteComponent implements OnInit {
         pointer: false,
         select: false
       }),
-      controls: []
+      controls: []*/
     });
 
 
     var marker = new ol.Feature({
       geometry: new ol.geom.Point(
         ol.proj.fromLonLat([this.longitude, this.latitude])
-      ),
+      )
     });
     marker.setStyle(new ol.style.Style({
       image: new ol.style.Icon({
-        color: '#8959A8',
         crossOrigin: 'anonymous',
-        src: './assets/img/me.png',
+        src: './assets/img/me.svg',
         anchor: [0.45, 0.8],
-        scale: 0.015
+        scale: 0.25
       })
     }));
 
@@ -131,37 +133,29 @@ export class CarteComponent implements OnInit {
 
     for (let i = 0; i < this.vlilleStationList.length; i++) {
 
-      var marker = new ol.Feature({
-        geometry: new ol.geom.Point(
-          ol.proj.fromLonLat([this.vlilleStationList[i].longitude, this.vlilleStationList[i].latitude])
+      var feature = new ol.Feature({
+        geometry: new ol.geom.Point(ol.proj.fromLonLat([this.vlilleStationList[i].longitude, this.vlilleStationList[i].latitude])
         )
-
       });
 
-        marker.setStyle(new ol.style.Style({
-          image: new ol.style.Icon({
-            color: '#ff92c1',
-            crossOrigin: 'anonymous',
-            src: './assets/img/station.svg',
-            anchor: [0.45, 0.8],
-            scale: 0.2
-          })
-        }));
-      
+      feature.setStyle(new ol.style.Style({
+        image: new ol.style.Icon({
+          color: '#ff92c1',
+          crossOrigin: 'anonymous',
+          src: './assets/img/station.svg',
+          anchor: [0.45, 0.8],
+          scale: 0.2
+        })
+      }));
 
       var vectorSource = new ol.source.Vector({
-        features: [marker]
+        features: [feature]
       });
       var markerVectorLayer = new ol.layer.Vector({
         source: vectorSource,
       });
       this.map.addLayer(markerVectorLayer);
-
     }
-
-
-
-
   }
 
   private getDistance(lat1, lon1, lat2, lon2) {

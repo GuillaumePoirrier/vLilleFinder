@@ -1,3 +1,15 @@
+<!--<div class="container" *ngIf='!isLoaded'>
+    <div class="alert alert-warning" role="alert" *ngIf='!isLocatedFound'>
+        Assurez-vous de bien avoir activé votre GPS.
+    </div>
+    <img class="loading" src="./assets/img/splash.svg">
+</div>-->
+
 <div class="container map-wrapper">
+    <div id="popup" class="ol-popup">
+        <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+        <div id="popup-content"></div>
+    </div>
     <div id="mapfull" class="mapfull"></div>
+
 </div>

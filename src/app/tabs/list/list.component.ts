@@ -124,11 +124,10 @@ export class ListComponent implements OnInit {
     });
     marker.setStyle(new ol.style.Style({
       image: new ol.style.Icon({
-        color: '#8959A8',
         crossOrigin: 'anonymous',
         src: './assets/img/me.svg',
         anchor: [0.45, 0.8],
-        scale: 0.5
+        scale: 0.25
       })
     }));
 
